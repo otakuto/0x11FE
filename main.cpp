@@ -1,5 +1,4 @@
 #include <GL/glfw.h>
-#include <GL/glu.h>
 #include <vector>
 #include <iostream>
 #include <cmath>
