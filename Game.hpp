@@ -1,14 +1,16 @@
+#pragma once
 #include <iostream>
+#include <vector>
 #include <array>
 #include <utility>
 
 class Game
 {
-	static constexpr int CELL_LENGTH_0 = 100;
-	static constexpr int CELL_LENGTH_1 = 100;
-	std::array<std::array<std::array<bool, CELL_LENGTH_1>, CELL_LENGTH_0>, 2> swap;
-	std::array<std::array<bool, CELL_LENGTH_1>, CELL_LENGTH_0> * cell;
-	std::array<std::array<bool, CELL_LENGTH_1>, CELL_LENGTH_0> * next;
+	static constexpr int CELL_LENGTH_0 = 1000;
+	static constexpr int CELL_LENGTH_1 = 1000;
+	std::array<std::vector<std::vector<bool>>, 2> swap;
+	std::vector<std::vector<bool>> * cell;
+	std::vector<std::vector<bool>> * next;
 
 public:
 	Game()
@@ -17,6 +19,26 @@ public:
 	cell(&swap[0]),
 	next(&swap[1])
 	{
+		for (int i = 0; i < 2; ++i)
+		{
+			swap[i].resize(CELL_LENGTH_0);
+			for (int j = 0; j < CELL_LENGTH_0; ++j)
+			{
+				swap[i][j].resize(CELL_LENGTH_1);
+			}
+		}
+
+		std::cout << "aa" << std::endl;
+		std::cout << swap[0][0][0] << std::endl;
+		for (int i = 0; i < 512; ++i)
+		{
+			(*cell)[256][256 + i] = true;
+		}
+		for (int i = 0; i < 512; ++i)
+		{
+			(*cell)[i][512] = true;
+		}
+		/*
 		(*cell)[5][5] = true;
 		(*cell)[5][6] = true;
 		(*cell)[6][5] = true;
@@ -25,10 +47,12 @@ public:
 		(*cell)[10][5] = true;
 		(*cell)[10][6] = true;
 		(*cell)[10][7] = true;
+		*/
 	}
 
 	void run()
 	{
+		/*
 		static int time = 0;
 		if (time >= 10)
 		{
@@ -39,6 +63,7 @@ public:
 			++time;
 			return;
 		}
+		*/
 		for (int x = 1; x < CELL_LENGTH_0 - 1; ++x)
 		{
 			for (int y = 1; y < CELL_LENGTH_1 - 1; ++y)
@@ -82,8 +107,8 @@ public:
 		{
 			{0, 0, 0},
 			{1, 0, 0},
-			{1, 1, 0},
-			{0, 1, 0}
+			{1, 0, 1},
+			{0, 0, 1}
 		};
 		static GLubyte const color[3] = {0x00, 0xFF, 0x00};
 
@@ -94,7 +119,7 @@ public:
 				if ((*cell)[x][y])
 				{
 					glPushMatrix();
-					glTranslated(x, y, 0);
+					glTranslated(x, 0, y);
 					glColor3ubv(color);
 					glBegin(GL_QUADS);
 					for (auto && e : vertex)

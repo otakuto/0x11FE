@@ -23,6 +23,10 @@ int main()
 
 	Game game;
 
+	int x = 256;
+	int y = 271;
+	int z = 512;
+
     while(!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -32,8 +36,50 @@ int main()
 		glfwGetFramebufferSize(window, &width, &height);
 		glViewport(0, 0, width, height);
 		glLoadIdentity();
-		gluPerspective(90, static_cast<double>(width) / static_cast<double>(height), 1, 1024);
-		gluLookAt(0, 100, 64, 0, 0, 0, 0, 1, 0);
+		gluPerspective(90, static_cast<double>(width) / static_cast<double>(height), 1, 2048);
+		gluLookAt(x, y, z, x, 0, z, 0, 0, -1);
+
+		if (glfwGetKey(window, GLFW_KEY_Q))
+		{
+			std::cout << x << ", "<< y << ", " << z << std::endl;
+		}
+
+		int move = 10;
+
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
+		{
+			move = 1;
+		}
+		else
+		{
+			move = 10;
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_UP))
+		{
+			y -= move;
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
+		{
+			y += move;
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D))
+		{
+			x += move;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A))
+		{
+			x -= move;
+		}
+		if (glfwGetKey(window, GLFW_KEY_W))
+		{
+			z -= move;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S))
+		{
+			z += move;
+		}
 
 		game.run();
 		game.draw();
