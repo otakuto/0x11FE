@@ -1,11 +1,13 @@
 #pragma once
 #include <iterator>
 #include <memory>
+#include "Game.hpp"
 #include "Pattern.hpp"
 
 class Cursor
 {
 	GLFWwindow * const window;
+	std::shared_ptr<Game> game;
 	std::shared_ptr<std::list<Pattern>> patternObjects;
 	std::list<Pattern>::iterator select;
 public:
@@ -14,9 +16,10 @@ public:
 	bool isVisible;
 
 public:
-	Cursor(GLFWwindow * const window, std::shared_ptr<std::list<Pattern>> patternObjects)
+	Cursor(GLFWwindow * const window, std::shared_ptr<Game> game, std::shared_ptr<std::list<Pattern>> patternObjects)
 	:
 	window(window),
+	game(game),
 	patternObjects(patternObjects),
 	select(patternObjects->begin()),
 	x(),
@@ -46,6 +49,21 @@ public:
 			else
 			{
 				++select;
+			}
+		}
+		{
+			static bool key = true;
+			if (glfwGetKey(window, GLFW_KEY_ENTER))
+			{
+				if (key)
+				{
+					game->pastePattern(x, y, false, *select);
+					key = false;
+				}
+			}
+			else
+			{
+				key = true;
 			}
 		}
 	}

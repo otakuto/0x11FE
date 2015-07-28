@@ -61,6 +61,16 @@ std::string Pattern::setName(std::string n)
     return filename = n;
 }
 
+int Pattern::getWidth() const
+{
+	return width;
+}
+
+int Pattern::getHeight() const
+{
+	return height;
+}
+
 int adjustPosition(int num, int min, int max)
 {
     if (num < min)
@@ -70,7 +80,7 @@ int adjustPosition(int num, int min, int max)
     return num;
 }
 
-std::shared_ptr<std::list<std::list<unsigned char>>> Pattern::getPattern()
+std::shared_ptr<std::list<std::list<unsigned char>>> Pattern::getPattern() const
 {
 	return pattern;
 }

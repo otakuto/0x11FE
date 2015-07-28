@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <utility>
+#include "Pattern.hpp"
 
 class Game
 {
@@ -47,18 +48,18 @@ public:
 	void run()
 	{
 		{
-			static bool space = true;
+			static bool key = true;
 			if (glfwGetKey(window, GLFW_KEY_SPACE))
 			{
-				if (space)
+				if (key)
 				{
 					isStop = !isStop;
-					space = false;
+					key = false;
 				}
 			}
 			else
 			{
-				space = true;
+				key = true;
 			}
 		}
 
@@ -146,6 +147,31 @@ public:
 					glEnd();
 					glPopMatrix();
 				}
+			}
+		}
+	}
+
+	void pastePattern(int x, int y, bool isReverse, Pattern const & pattern)
+	{
+		if ((0 <= x) && ((x + pattern.getWidth()) < CELL_LENGTH_1) && (0 <= y) && ((y + pattern.getHeight()) < CELL_LENGTH_0))
+		{
+			int i = 0;
+			for (auto const & row : *pattern.getPattern())
+			{
+				int j = 0;
+				for (auto const e : row)
+				{
+					if (isReverse)
+					{
+						(*cell)[y + j][x + i] = !e;
+					}
+					else
+					{
+						(*cell)[y + j][x + i] = e;
+					}
+					++j;
+				}
+				++i;
 			}
 		}
 	}

@@ -32,7 +32,10 @@ public:
 
     std::string setName(std::string n);
 
-	std::shared_ptr<std::list<std::list<unsigned char>>> getPattern();
+	int getWidth() const;
+	int getHeight() const;
+
+	std::shared_ptr<std::list<std::list<unsigned char>>> getPattern() const;
 
     int putDebug(int x, int y, int maxx, int maxy) const;
 };

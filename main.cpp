@@ -1,7 +1,8 @@
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
-#include <vector>
 #include <iostream>
+#include <vector>
+#include <memory>
 #include <cmath>
 #include "Game.hpp"
 #include "PatternList.hpp"
@@ -25,11 +26,11 @@ int main()
 	GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "0x11FE", nullptr, nullptr);
     glfwMakeContextCurrent(window);
 
-	Game game(window);
+	std::shared_ptr<Game> game = std::make_shared<Game>(window);
 
 	PatternList patternList;
 	patternList.load();
-	static Cursor cursor(window, patternList.getObjects());
+	static Cursor cursor(window, game, patternList.getObjects());
 
 	int x = 512;
 	int y = 384;
@@ -110,9 +111,9 @@ int main()
 			wheel = 0;
 		}
 
-		game.run();
+		game->run();
 		cursor.run();
-		game.draw();
+		game->draw();
 		cursor.draw();
 
 		glfwSwapBuffers(window);
