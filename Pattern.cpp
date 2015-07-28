@@ -1,8 +1,8 @@
-#include "PatternObject.hpp"
+#include "Pattern.hpp"
 
-const std::string PatternObject::BASEDIR = "pattern/";
+const std::string Pattern::BASEDIR = "pattern/";
 
-int PatternObject::load()
+int Pattern::load()
 {
     std::ifstream ifs(filename);
     if (!ifs || ifs.fail())
@@ -51,12 +51,12 @@ int PatternObject::load()
     return 0;
 }
 
-std::string PatternObject::getName() const
+std::string Pattern::getName() const
 {
     return filename;
 }
 
-std::string PatternObject::setName(std::string n)
+std::string Pattern::setName(std::string n)
 {
     return filename = n;
 }
@@ -70,12 +70,12 @@ int adjustPosition(int num, int min, int max)
     return num;
 }
 
-std::shared_ptr<std::list<std::list<unsigned char>>> PatternObject::getPattern()
+std::shared_ptr<std::list<std::list<unsigned char>>> Pattern::getPattern()
 {
 	return pattern;
 }
 
-int PatternObject::putDebug(int x, int y, int maxx, int maxy) const
+int Pattern::putDebug(int x, int y, int maxx, int maxy) const
 {
     if (!pattern)
     {

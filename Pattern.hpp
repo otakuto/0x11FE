@@ -6,7 +6,7 @@
 #include <fstream>
 #include <list>
 
-class PatternObject
+class Pattern
 {
     std::string filename;
     int width;
@@ -16,13 +16,13 @@ class PatternObject
 public:
     static const std::string BASEDIR;
 
-    PatternObject(std::string filename)
+    Pattern(std::string filename)
 	:
 	filename(BASEDIR + filename)
     {
     }
 
-    ~PatternObject()
+    ~Pattern()
     {
     }
 

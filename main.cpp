@@ -5,7 +5,7 @@
 #include <cmath>
 #include "Game.hpp"
 #include "PatternList.hpp"
-#include "PatternObject.hpp"
+#include "Pattern.hpp"
 #include "Cursor.hpp"
 
 int main()
@@ -29,17 +29,21 @@ int main()
 
 	PatternList patternList;
 	patternList.load();
-	Cursor cursor(window, patternList.getObjects());
+	static Cursor cursor(window, patternList.getObjects());
 
 	int x = 512;
 	int y = 384;
 	int z = 512;
 
 	static int wheel = 0;
-
-	glfwSetScrollCallback(window, [](auto window, auto x, auto y)
+	glfwSetScrollCallback(window, [](auto window, double x, double y)
 	{
 		wheel = y;
+	});
+
+	glfwSetCursorEnterCallback(window, [](auto window, int enter)
+	{
+		cursor.isVisible = enter;
 	});
 
     while (!glfwWindowShouldClose(window))
@@ -56,7 +60,11 @@ int main()
 
 		if (glfwGetKey(window, GLFW_KEY_Q))
 		{
-			std::cout << x << ", " << y << ", " << z << std::endl;
+			static double cursorPos[2];
+			static double old[2];
+			glfwGetCursorPos(window, &cursorPos[0], &cursorPos[1]);
+			cursor.x = cursorPos[0];
+			cursor.y = cursorPos[1];
 		}
 
 		int move = 10;
@@ -106,6 +114,7 @@ int main()
 		cursor.run();
 		game.draw();
 		cursor.draw();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

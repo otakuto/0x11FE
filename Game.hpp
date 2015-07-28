@@ -98,17 +98,19 @@ public:
 					}
 				}
 
-				if (sum == 2)
+				switch (sum)
 				{
+					case 2:
 					(*next)[x][y] = (*cell)[x][y];
-				}
-				else if (sum == 3)
-				{
+					break;
+
+					case 3:
 					(*next)[x][y] = true;
-				}
-				else
-				{
+					break;
+
+					default:
 					(*next)[x][y] = false;
+					break;
 				}
 			}
 		}
@@ -137,7 +139,7 @@ public:
 					glTranslated(x, 0, y);
 					glColor3ubv(color);
 					glBegin(GL_QUADS);
-					for (auto && v : vertex)
+					for (auto v : vertex)
 					{
 						glVertex3dv(v);
 					}
