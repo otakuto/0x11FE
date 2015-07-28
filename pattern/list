@@ -1,9 +1,9 @@
-block
 beehive
-boat
-ship
-pond
 blinker
+block
+boat
+false
+pond
+ship
 toad
-#beacon
-#clock
+true

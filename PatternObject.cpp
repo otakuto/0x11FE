@@ -1,11 +1,9 @@
-#pragma once
 #include "PatternObject.hpp"
 
 const std::string PatternObject::BASEDIR = "pattern/";
 
 int PatternObject::load()
 {
-    std::string filename = BASEDIR + name.c_str();
     std::ifstream ifs(filename);
     if (!ifs || ifs.fail())
     {
@@ -24,14 +22,14 @@ int PatternObject::load()
     {
         int columns = str.length();
         if (maxcolumns < columns)
-		{
+        {
             maxcolumns = columns;
-		}
+        }
         if (!lines)
-		{
-            pattern = new std::list<std::list<bool>>();
-		}
-        std::list<bool> line = std::list<bool>();
+        {
+            pattern = std::make_shared<std::list<std::list<unsigned char>>>();
+        }
+        std::list<unsigned char> line = std::list<unsigned char>();
         for (int c = 0; c < columns; ++c)
         {
             if (str[c] == '0')
@@ -40,12 +38,12 @@ int PatternObject::load()
                 line.push_back(true);
             else
             {
-                std::cerr << "pattern parser error:" << name << std::endl;
+                std::cerr << "pattern parser error:" << filename << std::endl;
                 return -1;
             }
         }
         pattern->push_back(line);
-        lines++;
+        ++lines;
     }
     height = lines;
     width = maxcolumns;
@@ -55,12 +53,12 @@ int PatternObject::load()
 
 std::string PatternObject::getName() const
 {
-    return name;
+    return filename;
 }
 
 std::string PatternObject::setName(std::string n)
 {
-    return name = n;
+    return filename = n;
 }
 
 int adjustPosition(int num, int min, int max)
@@ -70,6 +68,11 @@ int adjustPosition(int num, int min, int max)
     if (num > max)
         num = max;
     return num;
+}
+
+std::shared_ptr<std::list<std::list<unsigned char>>> PatternObject::getPattern()
+{
+	return pattern;
 }
 
 int PatternObject::putDebug(int x, int y, int maxx, int maxy) const
@@ -87,28 +90,14 @@ int PatternObject::putDebug(int x, int y, int maxx, int maxy) const
     std::cout << starty;
     std::cout << std::endl;
 
-	/*
-    std::list<std::list<bool>>::iterator ity = pattern->begin();
-    while (ity != pattern->end())
+    for (auto const & e : *pattern)
     {
-        std::list<bool>::iterator itx = ity->begin();
-        while (itx != ity->end())
+        for (auto const & row : e)
         {
-            std::cout << (int)(*itx);
-            itx++;
+            std::cout << static_cast<int>(row);
         }
         std::cout << std::endl;
-        ity++;
     }
-	*/
-	for (auto const & e : *pattern)
-	{
-		for (auto const & row : e)
-		{
-            std::cout << static_cast<int>(row);
-		}
-        std::cout << std::endl;
-	}
 
     return 0;
 }

@@ -4,7 +4,9 @@
 #include <iostream>
 #include <cmath>
 #include "Game.hpp"
-#include "Pattern.hpp"
+#include "PatternList.hpp"
+#include "PatternObject.hpp"
+#include "Cursor.hpp"
 
 int main()
 {
@@ -23,15 +25,24 @@ int main()
 	GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "0x11FE", nullptr, nullptr);
     glfwMakeContextCurrent(window);
 
-	Game game;
+	Game game(window);
 
-	Pattern pattern;
+	PatternList patternList;
+	patternList.load();
+	Cursor cursor(window, patternList.getObjects());
 
-	int x = 256;
-	int y = 271;
+	int x = 512;
+	int y = 384;
 	int z = 512;
 
-    while(!glfwWindowShouldClose(window))
+	static int wheel = 0;
+
+	glfwSetScrollCallback(window, [](auto window, auto x, auto y)
+	{
+		wheel = y;
+	});
+
+    while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
@@ -45,7 +56,7 @@ int main()
 
 		if (glfwGetKey(window, GLFW_KEY_Q))
 		{
-			std::cout << x << ", "<< y << ", " << z << std::endl;
+			std::cout << x << ", " << y << ", " << z << std::endl;
 		}
 
 		int move = 10;
@@ -85,8 +96,16 @@ int main()
 			z += move;
 		}
 
+		if (wheel)
+		{
+			y -= wheel * move * 5;
+			wheel = 0;
+		}
+
 		game.run();
+		cursor.run();
 		game.draw();
+		cursor.draw();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

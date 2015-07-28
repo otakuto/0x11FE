@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 2.8.12)
 project(0x11FE CXX)
 add_executable(0x11FE
 	main.cpp

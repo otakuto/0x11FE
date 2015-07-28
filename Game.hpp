@@ -6,18 +6,24 @@
 
 class Game
 {
-	static constexpr int CELL_LENGTH_0 = 1000;
-	static constexpr int CELL_LENGTH_1 = 1000;
+	static constexpr int CELL_LENGTH_0 = 1024;
+	static constexpr int CELL_LENGTH_1 = 1024;
+
+	GLFWwindow * const window;
 	std::array<std::vector<std::vector<unsigned char>>, 2> swap;
 	std::vector<std::vector<unsigned char>> * cell;
 	std::vector<std::vector<unsigned char>> * next;
 
+	bool isStop;
+
 public:
-	Game()
+	Game(GLFWwindow * const window)
 	:
+	window(window),
 	swap(),
 	cell(&swap[0]),
-	next(&swap[1])
+	next(&swap[1]),
+	isStop(false)
 	{
 		for (int i = 0; i < 2; ++i)
 		{
@@ -30,16 +36,36 @@ public:
 
 		for (int i = 0; i < 512; ++i)
 		{
-			(*cell)[256][256 + i] = true;
+			(*cell)[512][256 + i] = true;
 		}
 		for (int i = 0; i < 512; ++i)
 		{
-			(*cell)[i][512] = true;
+			(*cell)[256 + i][512] = true;
 		}
 	}
 
 	void run()
 	{
+		{
+			static bool space = true;
+			if (glfwGetKey(window, GLFW_KEY_SPACE))
+			{
+				if (space)
+				{
+					isStop = !isStop;
+					space = false;
+				}
+			}
+			else
+			{
+				space = true;
+			}
+		}
+
+		if (isStop)
+		{
+			return;
+		}
 		/*
 		static int time = 0;
 		if (time >= 10)
@@ -52,6 +78,7 @@ public:
 			return;
 		}
 		*/
+
 		for (int x = 1; x < CELL_LENGTH_0 - 1; ++x)
 		{
 			for (int y = 1; y < CELL_LENGTH_1 - 1; ++y)
@@ -91,28 +118,28 @@ public:
 
 	void draw() const
 	{
-		static GLdouble const vertex[][3] =
+		constexpr GLdouble vertex[][3] =
 		{
 			{0, 0, 0},
 			{1, 0, 0},
 			{1, 0, 1},
 			{0, 0, 1}
 		};
-		static GLubyte const color[3] = {0x00, 0xFF, 0x00};
+		constexpr GLubyte color[3] = {0x00, 0xFF, 0x00};
 
-		for (int x = 0; x < CELL_LENGTH_0; ++x)
+		for (int y = 0; y < CELL_LENGTH_1; ++y)
 		{
-			for (int y = 0; y < CELL_LENGTH_1; ++y)
+			for (int x = 0; x < CELL_LENGTH_0; ++x)
 			{
-				if ((*cell)[x][y])
+				if ((*cell)[y][x])
 				{
 					glPushMatrix();
 					glTranslated(x, 0, y);
 					glColor3ubv(color);
 					glBegin(GL_QUADS);
-					for (auto && e : vertex)
+					for (auto && v : vertex)
 					{
-						glVertex3dv(e);
+						glVertex3dv(v);
 					}
 					glEnd();
 					glPopMatrix();

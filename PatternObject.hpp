@@ -8,17 +8,21 @@
 
 class PatternObject
 {
-    std::string name;
+    std::string filename;
     int width;
     int height;
-    std::list<std::list<bool>> * pattern;
+	std::shared_ptr<std::list<std::list<unsigned char>>> pattern;
 
 public:
     static const std::string BASEDIR;
 
     PatternObject(std::string filename)
 	:
-	name(filename)
+	filename(BASEDIR + filename)
+    {
+    }
+
+    ~PatternObject()
     {
     }
 
@@ -28,10 +32,8 @@ public:
 
     std::string setName(std::string n);
 
+	std::shared_ptr<std::list<std::list<unsigned char>>> getPattern();
+
     int putDebug(int x, int y, int maxx, int maxy) const;
-
-    ~PatternObject()
-    {
-    }
-
 };
+
