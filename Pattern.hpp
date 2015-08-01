@@ -1,6 +1,4 @@
-#ifndef PATTERN_HPP
-#define PATTERN_HPP
-
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <array>
@@ -31,4 +29,3 @@ public:
     std::list<PatternObject> * getObjects();
 };
 
-#endif

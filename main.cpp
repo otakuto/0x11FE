@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include "Game.hpp"
+#include "Pattern.hpp"
 
 int main()
 {
@@ -18,10 +19,13 @@ int main()
 	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-	GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "0x11FE", monitor, nullptr);
+	//GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "0x11FE", monitor, nullptr);
+	GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "0x11FE", nullptr, nullptr);
     glfwMakeContextCurrent(window);
 
 	Game game;
+
+	Pattern pattern;
 
 	int x = 256;
 	int y = 271;

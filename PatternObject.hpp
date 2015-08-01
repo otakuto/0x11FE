@@ -1,6 +1,4 @@
-#ifndef PATTERN_OBJECT_HPP
-#define PATTERN_OBJECT_HPP
-
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <utility>
@@ -18,28 +16,22 @@ class PatternObject
 public:
     static const std::string BASEDIR;
 
-    PatternObject()
-    {
-
-    }
-
     PatternObject(std::string filename)
+	:
+	name(filename)
     {
-        name = filename;
     }
 
     int load();
 
-    std::string getName();
+    std::string getName() const;
 
     std::string setName(std::string n);
 
-    int putDebug(int x, int y, int maxx, int maxy);
+    int putDebug(int x, int y, int maxx, int maxy) const;
 
     ~PatternObject()
     {
     }
 
 };
-
-#endif

@@ -8,9 +8,9 @@ class Game
 {
 	static constexpr int CELL_LENGTH_0 = 1000;
 	static constexpr int CELL_LENGTH_1 = 1000;
-	std::array<std::vector<std::vector<bool>>, 2> swap;
-	std::vector<std::vector<bool>> * cell;
-	std::vector<std::vector<bool>> * next;
+	std::array<std::vector<std::vector<unsigned char>>, 2> swap;
+	std::vector<std::vector<unsigned char>> * cell;
+	std::vector<std::vector<unsigned char>> * next;
 
 public:
 	Game()
@@ -28,8 +28,6 @@ public:
 			}
 		}
 
-		std::cout << "aa" << std::endl;
-		std::cout << swap[0][0][0] << std::endl;
 		for (int i = 0; i < 512; ++i)
 		{
 			(*cell)[256][256 + i] = true;
@@ -38,16 +36,6 @@ public:
 		{
 			(*cell)[i][512] = true;
 		}
-		/*
-		(*cell)[5][5] = true;
-		(*cell)[5][6] = true;
-		(*cell)[6][5] = true;
-		(*cell)[6][6] = true;
-
-		(*cell)[10][5] = true;
-		(*cell)[10][6] = true;
-		(*cell)[10][7] = true;
-		*/
 	}
 
 	void run()

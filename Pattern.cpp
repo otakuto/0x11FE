@@ -1,7 +1,8 @@
+#pragma once
 #include "Pattern.hpp"
 #include "PatternObject.hpp"
 
-const std::string Pattern::LIST_FILENAME = PatternObject::BASEDIR + "list";
+const std::string Pattern::LIST_FILENAME = "pattern/list";//PatternObject::BASEDIR + "list";
 
 int Pattern::load()
 {
@@ -13,14 +14,18 @@ int Pattern::load()
         return -1;
     }
 
-    patternObjects = new std::list<PatternObject>(0);
+    patternObjects = new std::list<PatternObject>();
     while (getline(ifs, buffer))
     {
         if (!buffer.find("#"))
+		{
             continue;
+		}
         PatternObject po = PatternObject(buffer);
         if (po.load())
+		{
             return -1;
+		}
         patternObjects->push_back(po);
     }
     return 0;

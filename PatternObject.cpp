@@ -1,3 +1,4 @@
+#pragma once
 #include "PatternObject.hpp"
 
 const std::string PatternObject::BASEDIR = "pattern/";
@@ -23,10 +24,14 @@ int PatternObject::load()
     {
         int columns = str.length();
         if (maxcolumns < columns)
+		{
             maxcolumns = columns;
+		}
         if (!lines)
-            pattern = new std::list<std::list<bool>>(0);
-        std::list<bool> line = std::list<bool>(0);
+		{
+            pattern = new std::list<std::list<bool>>();
+		}
+        std::list<bool> line = std::list<bool>();
         for (int c = 0; c < columns; ++c)
         {
             if (str[c] == '0')
@@ -48,7 +53,7 @@ int PatternObject::load()
     return 0;
 }
 
-std::string PatternObject::getName()
+std::string PatternObject::getName() const
 {
     return name;
 }
@@ -67,7 +72,7 @@ int adjustPosition(int num, int min, int max)
     return num;
 }
 
-int PatternObject::putDebug(int x, int y, int maxx, int maxy)
+int PatternObject::putDebug(int x, int y, int maxx, int maxy) const
 {
     if (!pattern)
     {
@@ -82,6 +87,7 @@ int PatternObject::putDebug(int x, int y, int maxx, int maxy)
     std::cout << starty;
     std::cout << std::endl;
 
+	/*
     std::list<std::list<bool>>::iterator ity = pattern->begin();
     while (ity != pattern->end())
     {
@@ -94,5 +100,15 @@ int PatternObject::putDebug(int x, int y, int maxx, int maxy)
         std::cout << std::endl;
         ity++;
     }
+	*/
+	for (auto const & e : *pattern)
+	{
+		for (auto const & row : e)
+		{
+            std::cout << static_cast<int>(row);
+		}
+        std::cout << std::endl;
+	}
+
     return 0;
 }

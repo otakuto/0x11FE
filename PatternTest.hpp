@@ -1,2 +1,3 @@
-#include <iostream>
-#include "Pattern.hpp"
+//#pragma once
+//#include <iostream>
+//#include "Pattern.hpp"
